@@ -1,10 +1,19 @@
 import numpy as np
 import pickle
+import os
+
+
+
 
 def load_model(data):
-    path='Loan-Approval-Using-Machine-Learning/model/'
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    # Build path to the model file
+    model_path = os.path.join(BASE_DIR, "model", "Random Forest Model.pickle")
+
+
     prepared_sample = np.array(data).reshape(1, -1)
-    with open(path+'Random Forest Model.pickle', 'rb') as to_read:
+    with open(model_path, 'rb') as to_read:
         model=pickle.load(to_read)
     # Replace with actual model prediction logic
     prediction = model.predict(prepared_sample)

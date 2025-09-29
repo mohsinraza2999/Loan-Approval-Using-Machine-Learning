@@ -1,7 +1,8 @@
 from fastapi.testclient import TestClient
-client = TestClient(app)
 from main import app
 import numpy as np
+client = TestClient(app)
+
 sample = [0,0.0, 1, 0, 5849, 0.0, 1200, 360.0, 1.0, 1]
 prepared_sample = np.array(sample).reshape(1, -1)
 results=['Loan is Approved','Loan is Not Approved']

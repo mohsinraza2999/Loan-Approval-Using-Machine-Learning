@@ -24,3 +24,11 @@ jobs:
     - name: Run tests
       run: |
         pytest
+
+  build:
+    runs-on: ubuntu-latest
+    steps: 
+    - uses: actions/checkout@v3
+    - name: build Docker Image
+      run: docker build . --file Dockerfile --tag workflow-test:$(date +$s)
+

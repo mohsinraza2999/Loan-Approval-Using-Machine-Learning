@@ -1,5 +1,6 @@
 from fastapi.testclient import TestClient
 import sys, os
+import re
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from main import app
 client = TestClient(app)
@@ -8,7 +9,6 @@ results=['Loan is Approved','Loan is Not Approved']
 def test_app():
     
     response = client.get("/")
-    print("RESPONSE : \n",response)
     assert response.status_code == 200
 
 def test_prediction():
@@ -26,8 +26,12 @@ def test_prediction():
     for key in payload.keys():
         payload[key]=str(payload[key])
     response = client.post("/submit", data=payload)
-    print("RESPONSE :\n",response)
     assert response.status_code == 200
-    assert response.json()["prediction"] in results
+
+    html = response.text
+    match = re.search(r'prediction[^>]*>([^<]+)<', html, re.IGNORECASE)
+    prediction = match.group(1).strip() if match else None
+
+    assert prediction in results
 
 
